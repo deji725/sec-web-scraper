@@ -1,5 +1,6 @@
 # sec-web-scraper
 A Python based web scraper for the SEC EDGAR database
+
 ![Github](https://img.shields.io/github/license/deji725/sec-web-scraper)
 
 
