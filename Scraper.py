@@ -67,15 +67,14 @@ def bs4_scraping_text(string_inp):
     #Wait until you process this. We want to get the text between two tags
 
 def iterate_over_filings(filings):
-    print(type(filings))
     print(filings.keys())
-
-    #for i in filings['recent']:
-    #    print(i)
-
-    #for k,j in filings['files']:
-    #    print(j)
-    #return filings['files']['filingCount']
+    for k,v in filings['recent'].items():
+        print(f'This is the key {k} and the item length: {len(v)} and type : {type(v)}')
+    for j in filings['files']:
+        print(j)
+        print(type(j))
+    print('------')
+    return filings['files'][0]['filingCount']
 class Scraper(object):
 
     def __init__(self):
@@ -97,8 +96,8 @@ def main():
 
 
     print(f'Iterating over the filings....')
-    #n = iterate_over_filings(apple_cik['filings'])
-    #print(f'This is the file count {n}')
+    n = iterate_over_filings(apple_cik['filings'])
+    print(f'This is the file count {n}')
 
 if __name__ == '__main__':
     main()
