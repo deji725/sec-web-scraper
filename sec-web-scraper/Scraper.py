@@ -60,9 +60,12 @@ def get_document_tags(txt):
     type_list = []
     for y in doc_type.findall(txt):
         type_list.append(y)
-
-    print(type_list)
-
+    
+    results = []
+    for x,y,z, in zip(beg_seq,end_seq,type_list):
+        results.append((x,y,z))
+        print(f'This is x, y, z: {x} , {y} , {z}')
+    return results
 
 def bs4_scraping_text(string_inp):
     text = BeautifulSoup(string_inp, "lxml")
@@ -92,7 +95,9 @@ def main():
     sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
     raw_txt = get_document_given_link(sample_10k)
     doc_tags = get_document_tags(raw_txt)
-
+    
+    print("These are the doc tags ")
+    print(doc_tags)
     # Add checking to see if length of cik is 10 digits
     apple_cik = get_company_filings_given_cik("0000320193")
     print(f"These are the keys in the official SEC API based on CIK")
