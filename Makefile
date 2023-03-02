@@ -45,6 +45,8 @@ coverage:  ## clean and run unit tests with coverage
 	python3 -m pytest -v sec_web_scraper/tests --cov=sec_web_scraper --cov-branch --cov-fail-under=75 --cov-report term-missing
 
 # Alias
+cov: coverage
+
 tests: test
 
 ###########

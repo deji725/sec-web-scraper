@@ -1,15 +1,15 @@
-from Scraper import build_index_sec
+from Scraper import *
 
 
 def main():
     sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
     # create_selenium_browser_headless()
-    build_index_sec(1993, 2000)
+    # build_index_sec(1993, 2000)
     # raw_txt = get_document_given_link(sample_10k)
-    # doc_tags = get_document_tags(raw_txt)
+    doc_tags = get_document_tags(None)
 
-    # print("These are the doc tags ")
-    # print(doc_tags)
+    print("These are the doc tags ")
+    print(doc_tags)
     # Add checking to see if length of cik is 10 digits
 
 

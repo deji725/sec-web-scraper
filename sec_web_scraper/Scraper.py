@@ -74,31 +74,34 @@ def get_document_given_link(link):
 
 
 def get_document_tags(txt):
-    doc_start = re.compile(r"<DOCUMENT>")
-    doc_end = re.compile(r"</DOCUMENT>")
-    doc_type = re.compile(r"<TYPE>[^\n]+")
+    try:
+        doc_start = re.compile(r"<DOCUMENT>")
+        doc_end = re.compile(r"</DOCUMENT>")
+        doc_type = re.compile(r"<TYPE>[^\n]+")
 
-    beg_seq = []
-    for y in doc_start.finditer(txt):
-        beg_seq.append(y.end())
-    end_seq = []
-    for y in doc_end.finditer(txt):
-        end_seq.append(y.start())
+        beg_seq = []
+        for y in doc_start.finditer(txt):
+            beg_seq.append(y.end())
+        end_seq = []
+        for y in doc_end.finditer(txt):
+            end_seq.append(y.start())
 
-    type_list = []
-    for y in doc_type.findall(txt):
-        type_list.append(y)
+        type_list = []
+        for y in doc_type.findall(txt):
+            type_list.append(y)
 
-    results = []
-    for (
-        x,
-        y,
-        z,
-    ) in zip(beg_seq, end_seq, type_list):
-        results.append((x, y, z))
-        print(f'This is x, y, z: {x} , {y} , {z}')
-    return results
-
+        results = []
+        for (
+            x,
+            y,
+            z,
+        ) in zip(beg_seq, end_seq, type_list):
+            results.append((x, y, z))
+            print(f'This is x, y, z: {x} , {y} , {z}')
+        return results
+    except TypeError as t:
+        print(f'Error : {t}')
+        return None
 
 def bs4_scraping_text(string_inp):
     text = BeautifulSoup(string_inp, "lxml")
