@@ -53,7 +53,7 @@ develop = [
 [tool.black]
 color = true
 line-length = 120
-target-version = ['py310']
+target-version = ['py37','py38','py39','py310']
 skip-string-normalization = true
 
 [tool.check-manifest]
