@@ -43,12 +43,13 @@ headers = {
 sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
 
 
-def create_selenium_browser_headless():
-    sec_link = 'https://www.sec.gov/edgar/search/'
+def create_selenium_browser_headless(sec_link='https://www.sec.gov/edgar/search/'):
     r = requests.get(sec_link, headers)
     if r.ok:
         print("Good")
-    driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
+        #driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
+    else:
+        raise ConnectionError(f'requests couldn\'t get your link so Selenium browser not created')
     # pass  # This will be for full text scraping
 
 
@@ -56,10 +57,13 @@ def get_company_filings_given_cik(cik):
     assert len(cik) == 10
     link = f"https://data.sec.gov/submissions/CIK{cik}.json"
     r = requests.get(link, headers=headers)
-    company_filling_cik = json.loads(r.text)
-    print(company_filling_cik["sicDescription"])
+    if r.ok:
+        company_filling_cik = json.loads(r.text)
+        print(company_filling_cik["sicDescription"])
 
-    return company_filling_cik
+        return company_filling_cik
+    else:
+        return {}
 
 
 def get_document_given_link(link):
@@ -105,6 +109,7 @@ def get_document_tags(txt):
 
 def bs4_scraping_text(string_inp):
     text = BeautifulSoup(string_inp, "lxml")
+    pass
     # Wait until you process this. We want to get the text between two tags
 
 
