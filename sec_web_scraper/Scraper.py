@@ -47,7 +47,7 @@ def create_selenium_browser_headless(sec_link='https://www.sec.gov/edgar/search/
     r = requests.get(sec_link, headers)
     if r.ok:
         print("Good")
-        #driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
+        # driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
     else:
         raise ConnectionError(f'requests couldn\'t get your link so Selenium browser not created')
     # pass  # This will be for full text scraping
@@ -106,6 +106,7 @@ def get_document_tags(txt):
     except TypeError as t:
         print(f'Error : {t}')
         return None
+
 
 def bs4_scraping_text(string_inp):
     text = BeautifulSoup(string_inp, "lxml")

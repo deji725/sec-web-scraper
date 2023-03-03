@@ -8,8 +8,8 @@ def main():
     # raw_txt = get_document_given_link(sample_10k)
     # doc_tags = get_document_tags(raw_txt)
 
-    #print("These are the doc tags ")
-    #print(doc_tags)
+    # print("These are the doc tags ")
+    # print(doc_tags)
     # Add checking to see if length of cik is 10 digits
     apple_cik = get_company_filings_given_cik("0000320193")
     print(f"These are the keys in the official SEC API based on CIK")
