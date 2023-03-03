@@ -11,3 +11,7 @@ This library will for scraping certain financial documents from the EDGAR databa
 The two main features of the library will be:
 - A document downloader portion that will fetch documents from the EDGAR database based on parameters such as a text query, time period, company ticker, and file type. 
 - A scraper that will parse sections and information from the retrieved files. 
+
+## References
+- Python project template from https://github.com/ColumbiaOSS/example-project-python
+
