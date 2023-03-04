@@ -1,40 +1,42 @@
-import requests
-import urllib
 import re
-from bs4 import BeautifulSoup
-import pandas as pd
-import numpy as np
-import unicodedata as unc
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import time
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 
-# from webdriver_manager.chrome import ChromeDriverManager
-
-# geckodriver for Firefox
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.firefox.options import Options
-
-options = Options()
-# options.headless = True
-# geckodriver = '/user/oko2107/Downloads/geckodriver'
-# driver =  webdriver.Firefox(service=Service(geckodriver))
-import os
-import io
-from tqdm import tqdm, trange
-
+# import time
+# import unicodedata as unc
+# import urllib
 # Stopwords dictionary
 # import nltk
 # nltk.download('punkt')
 import json
-from pandas.core.frame import DataFrame
 
+# options.headless = True
+# geckodriver = '/user/oko2107/Downloads/geckodriver'
+# driver =  webdriver.Firefox(service=Service(geckodriver))
+import os
+
+
+# import numpy as np
+import pandas as pd
+import requests
+import io
+from bs4 import BeautifulSoup
+
+# geckodriver for Firefox
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.firefox.service import Service
+# from selenium.webdriver.support import expected_conditions
+# from selenium.webdriver.support.ui import Select, WebDriverWait
+# from webdriver_manager.firefox import GeckoDriverManager
+
+# from webdriver_manager.chrome import ChromeDriverManager
+
+
+# options = Options()
+
+# from pandas.core.frame import DataFrame
+from tqdm import trange
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox",
@@ -49,7 +51,7 @@ def create_selenium_browser_headless(sec_link='https://www.sec.gov/edgar/search/
         print("Good")
         # driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
     else:
-        raise ConnectionError(f'requests couldn\'t get your link so Selenium browser not created')
+        raise ConnectionError('requests couldn\'t get your link so Selenium browser not created')
     # pass  # This will be for full text scraping
 
 
@@ -110,7 +112,7 @@ def get_document_tags(txt):
 
 def bs4_scraping_text(string_inp):
     text = BeautifulSoup(string_inp, "lxml")
-    pass
+    return text
     # Wait until you process this. We want to get the text between two tags
 
 
@@ -135,7 +137,7 @@ def build_index_sec(st, ed, path_files='./index_sec'):
     column_names = ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename']
     dat_types = {"CIK": int, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
 
-    t_r = trange(st, ed + 1, desc=f'Downloading SEC files', leave=True)
+    t_r = trange(st, ed + 1, desc='Downloading SEC files', leave=True)
     for year in t_r:
         for quarter in range(1, 5):
             t_r.set_description(f' Downloading SEC files for Year: {year} and QTR: {quarter} ')
