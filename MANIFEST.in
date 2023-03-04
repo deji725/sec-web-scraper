@@ -2,6 +2,7 @@ graft example_project_python
 
 include LICENSE
 include README.md
+include CONTRIBUTING.md
 
 include .bumpversion.cfg
 include pyproject.toml
