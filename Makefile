@@ -21,7 +21,7 @@ lint:  ## run static analysis with flake8
 lints: lint
 
 format:  ## run autoformatting with black
-	python3 -m black sec_web_scraper/ setup.py
+	python3 -m black -v sec_web_scraper/ setup.py
 
 # alias
 fix: format

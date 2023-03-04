@@ -1,4 +1,4 @@
-from Scraper import *
+from Scraper import get_company_filings_given_cik, iterate_over_filings
 
 
 def main():
@@ -12,12 +12,13 @@ def main():
     # print(doc_tags)
     # Add checking to see if length of cik is 10 digits
     apple_cik = get_company_filings_given_cik("0000320193")
-    print(f"These are the keys in the official SEC API based on CIK")
+    print("These are the keys in the official SEC API based on CIK")
     print(apple_cik.keys())
 
-    print(f"Iterating over the filings....")
+    print("Iterating over the filings....")
     n = iterate_over_filings(apple_cik["filings"])
     print(f"This is the file count {n}")
+    print(sample_10k)
 
 
 if __name__ == "__main__":
