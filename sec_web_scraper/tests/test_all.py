@@ -83,15 +83,16 @@ def test_create_selenium_browser_headless_con_err():
         create_selenium_browser_headless("https://www.sec.gov/edgar/2/2")
         print(f'{conn_er}')
 
+
 def test_build_sec_index_fail():
-        #The 2011 Quarter 4 Test should fail
+    # The 2011 Quarter 4 Test should fail
     sec_url = "https://www.sec.gov/Archives/edgar/full-index/"
     year = 2011
     quarter = 4
     column_names = ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename']
     dat_types = {"CIK": int, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
     response = requests.get(sec_url + f"{year}/QTR{quarter}/master.zip", headers=headers)
-    assert response.ok 
+    assert response.ok
     with pytest.raises(UnicodeDecodeError) as context:
         master_index = pd.read_csv(
             io.BytesIO(response.content),
