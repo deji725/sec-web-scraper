@@ -19,7 +19,6 @@ dependencies = [
     "bs4",
     "requests",
     "tqdm",
-    "shutil"
 ]
 
 classifiers = [
@@ -54,7 +53,6 @@ develop = [
     "pytest-cov>=2.6.1",
     "twine",
     "wheel",
-    "shutil"
 ]
 
 [tool.black]
