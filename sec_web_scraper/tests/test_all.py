@@ -1,4 +1,4 @@
-from unittest.mock import patch,MagicMock
+from unittest.mock import patch, MagicMock
 
 import pytest
 import requests
@@ -83,15 +83,19 @@ def test_create_selenium_browser_headless_con_err():
         create_selenium_browser_headless("https://www.sec.gov/edgar/2/2")
         print(f'{conn_er}')
 
-#check if directory index_sec exists
+
+# check if directory index_sec exists
 def test_build_sec_pass():
-    #integ test
-    res = build_index_sec(2000,2002)
+    # integ test
+    res = build_index_sec(2000, 2002)
     assert os.path.exists('./index_sec/')
+
+
 @patch('builtins.print')
 def test_build_sec_fail(mock_print):
-    res = build_index_sec(2010,2011)
+    res = build_index_sec(2010, 2011)
     assert mock_print.call_args.args == ('trying to do Latin encoding',)
+
 
 def test_2011_sec_full_index():
     # The 2011 Quarter 4 Test should fail
