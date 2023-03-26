@@ -46,3 +46,16 @@ def test_2011_sec_full_index():
             dtype=dat_types,
         )
     assert "invalid continuation byte" in str(context.value)
+
+
+def test_get_forms():
+    # Weak tests for now
+    d = Downloader()
+    d.get_forms = MagicMock(return_value=['10-K', '10-Q'])
+    assert len(d.get_forms()) == 2
+
+
+def test_pretty_print():
+    d = Downloader()
+    d.pretty_print_forms = MagicMock(return_value=True)
+    assert d.pretty_print_forms() == True

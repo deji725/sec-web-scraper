@@ -69,10 +69,10 @@ class Downloader(object):
         list_dir_sec = os.listdir(path_files)
         if len(list_dir_sec) == 0:
             raise Exception(f"{path_files} is empty, this operation can't be run")
-        column_names = ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename']
-        dat_types = {"CIK": int, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
-        assert column_names != []
-        assert dat_types != []
+        # column_names = ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename']
+        # dat_types = {"CIK": int, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
+        # assert column_names != []
+        # assert dat_types != []
         print("Nothing so far")
 
     def get_forms(self):
