@@ -4,6 +4,7 @@ import pytest
 import requests
 import os
 from sec_web_scraper import *
+from sec_web_scraper.Downloader import Downloader
 
 test_link = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
 fail_link = "https://www.sec.gov/Archives/edgar/data/21/0000893220-96-000500.txt"  # Should fail delibrately
@@ -87,13 +88,15 @@ def test_create_selenium_browser_headless_con_err():
 # check if directory index_sec exists
 def test_build_sec_pass():
     # integ test
-    res = build_index_sec(2000, 2002)
+    d = Downloader()
+    res = d.build_index_sec(2000, 2002)
     assert os.path.exists('./index_sec/')
 
 
 @patch('builtins.print')
 def test_build_sec_fail(mock_print):
-    res = build_index_sec(2010, 2011)
+    d = Downloader()
+    res = d.build_index_sec(2010, 2011)
     assert mock_print.call_args.args == ('trying to do Latin encoding',)
 
 
