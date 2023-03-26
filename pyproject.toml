@@ -54,6 +54,7 @@ develop = [
     "pytest-cov>=2.6.1",
     "twine",
     "wheel",
+    "shutil"
 ]
 
 [tool.black]
