@@ -3,6 +3,7 @@ import pytest
 import requests
 import os
 import io
+import shutil  # for cleaning directory
 from sec_web_scraper.Downloader import Downloader
 from unittest.mock import patch, MagicMock
 
@@ -10,6 +11,8 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox",
     "Accept": "application/json, text/javascript, */*; q=0.01",
 }
+
+indx_sec_path = './index_sec/'
 
 
 @patch('builtins.print')
@@ -56,7 +59,7 @@ res = d.build_index_sec(2000, 2002)
 
 def test_build_sec_pass():
     # integ test
-    assert os.path.exists('./index_sec/')
+    assert os.path.exists(indx_sec_path)
 
 
 def test_get_forms_pass():
@@ -70,7 +73,18 @@ def test_get_forms_mock():
     assert len(d.get_forms()) == 2
 
 
-def test_read_tsv_files_empty_dir():
+def test_read_tsv_files_empty_dir():  # DIRECTORy doens't exist
+    d = Downloader()
+    path = './empty_dir_sec'
+    os.mkdir(path)
+    with pytest.raises(Exception) as context:
+        d.read_tsv_files(path)
+    assert "this operation can't be run" in str(context.value)
+    os.rmdir(path)
+    # may change to sys.exit for a cleaner message
+
+
+def test_read_tsv_files_DNE_dir():  # DIRECTORy doens't exist
     d = Downloader()
     with pytest.raises(FileNotFoundError) as context:
         d.read_tsv_files('./iindex_sec_fail')
@@ -79,16 +93,17 @@ def test_read_tsv_files_empty_dir():
 @patch('builtins.print')
 def test_read_tsv_files_pass(mock_print):
     d = Downloader()
-    d.read_tsv_files('./index_sec/')
+    d.read_tsv_files(indx_sec_path)
     assert mock_print.call_args.args == ('Nothing so far',)
 
 
-#   @patch('builtins.print')
-#   def test_pretty_print_pass(mock_print):
-#
-#       assert mock_print.call_args.args[0]
-#
-#   def test_pretty_print_mock():
-#       d = Downloader()
-#       d.pretty_print_forms = MagicMock(return_value=True)
-#       assert d.pretty_print_forms() == True
+@patch('builtins.print')
+def test_pretty_print_pass(mock_print):
+    d.pretty_print_forms()
+    assert 'Form Type' in mock_print.call_args.args[0]
+
+
+def test_cleanup_dir():
+    shutil.rmtree(indx_sec_path)
+    with pytest.raises(FileNotFoundError) as context:
+        os.listdir(indx_sec_path)

@@ -18,7 +18,8 @@ dependencies = [
     "pandas",
     "bs4",
     "requests",
-    "tqdm"
+    "tqdm",
+    "shutil"
 ]
 
 classifiers = [
