@@ -12,14 +12,6 @@ headers = {
 }
 
 
-# check if directory index_sec exists
-def test_build_sec_pass():
-    # integ test
-    d = Downloader()
-    res = d.build_index_sec(2000, 2002)
-    assert os.path.exists('./index_sec/')
-
-
 @patch('builtins.print')
 def test_build_sec_fail(mock_print):
     d = Downloader()
@@ -48,14 +40,34 @@ def test_2011_sec_full_index():
     assert "invalid continuation byte" in str(context.value)
 
 
-def test_get_forms():
+# check if directory index_sec exists
+
+d = Downloader()
+res = d.build_index_sec(2000, 2002)
+
+
+def test_build_sec_pass():
+    # integ test
+    assert os.path.exists('./index_sec/')
+
+
+def test_get_forms_pass():
+    assert len(d.get_forms()) != 0
+
+
+def test_get_forms_mock():
     # Weak tests for now
     d = Downloader()
     d.get_forms = MagicMock(return_value=['10-K', '10-Q'])
     assert len(d.get_forms()) == 2
 
 
-def test_pretty_print():
-    d = Downloader()
-    d.pretty_print_forms = MagicMock(return_value=True)
-    assert d.pretty_print_forms() == True
+#   @patch('builtins.print')
+#   def test_pretty_print_pass(mock_print):
+#
+#       assert mock_print.call_args.args[0]
+#
+#   def test_pretty_print_mock():
+#       d = Downloader()
+#       d.pretty_print_forms = MagicMock(return_value=True)
+#       assert d.pretty_print_forms() == True
