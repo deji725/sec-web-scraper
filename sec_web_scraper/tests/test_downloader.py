@@ -19,6 +19,14 @@ def test_build_sec_fail(mock_print):
     assert mock_print.call_args.args == ('trying to do Latin encoding',)
 
 
+@patch('builtins.print')
+def test_build_sec_index_invalid_link(mock_print):
+    d = Downloader()
+    d.headers = {}
+    res = d.build_index_sec(2010, 2010)
+    assert 'Error Code' in mock_print.call_args.args[0]
+
+
 def test_2011_sec_full_index():
     # The 2011 Quarter 4 Test should fail
     sec_url = "https://www.sec.gov/Archives/edgar/full-index/"
@@ -60,6 +68,19 @@ def test_get_forms_mock():
     d = Downloader()
     d.get_forms = MagicMock(return_value=['10-K', '10-Q'])
     assert len(d.get_forms()) == 2
+
+
+def test_read_tsv_files_empty_dir():
+    d = Downloader()
+    with pytest.raises(FileNotFoundError) as context:
+        d.read_tsv_files('./iindex_sec_fail')
+
+
+@patch('builtins.print')
+def test_read_tsv_files_pass(mock_print):
+    d = Downloader()
+    d.read_tsv_files('./index_sec/')
+    assert mock_print.call_args.args == ('Nothing so far',)
 
 
 #   @patch('builtins.print')
