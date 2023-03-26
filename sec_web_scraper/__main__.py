@@ -1,4 +1,4 @@
-from Scraper import get_company_filings_given_cik, iterate_over_filings
+from Scraper import get_company_filings_given_cik, iterate_over_filings, build_index_sec
 
 
 def main():
@@ -19,6 +19,8 @@ def main():
     n = iterate_over_filings(apple_cik["filings"])
     print(f"This is the file count {n}")
     print(sample_10k)
+
+    build_index_sec(2010, 2012)  # Small Sample of Documents
 
 
 if __name__ == "__main__":

@@ -144,14 +144,28 @@ def build_index_sec(st, ed, path_files='./index_sec'):
             response = requests.get(sec_url + f"{year}/QTR{quarter}/master.zip", headers=headers)
             # print(response.ok)
             if response.ok:
-                master_index = pd.read_csv(
-                    io.BytesIO(response.content),
-                    skiprows=11,
-                    sep="|",
-                    compression='zip',
-                    names=column_names,
-                    dtype=dat_types,
-                )
+                try:
+                    master_index = pd.read_csv(
+                        io.BytesIO(response.content),
+                        skiprows=11,
+                        sep="|",
+                        compression='zip',
+                        names=column_names,
+                        dtype=dat_types,
+                    )
+                except Exception as e:
+                    print(e)
+                    print(f"{year}-QTR{quarter} failed")
+                    print("trying to do Latin encoding")
+                    master_index = pd.read_csv(
+                        io.BytesIO(response.content),
+                        skiprows=11,
+                        sep="|",
+                        compression='zip',
+                        names=column_names,
+                        dtype=dat_types,
+                        encoding='latin-1',
+                    )
                 master_index['url'] = master_index['Filename'].str.replace(".txt", '-index.html', regex=False)
                 save_file_path = os.path.join(path_files, f"{year}-QTR{quarter}.tsv")
                 master_index.to_csv(save_file_path, sep='|', index=False, header=False)
