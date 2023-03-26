@@ -1,5 +1,4 @@
-from Scraper import get_company_filings_given_cik, iterate_over_filings
-from Downloader import Downloader
+from Scraper import get_company_filings_given_cik, iterate_over_filings, build_index_sec
 
 
 def main():
@@ -21,10 +20,7 @@ def main():
     print(f"This is the file count {n}")
     print(sample_10k)
 
-    d = Downloader()
-    d.build_index_sec(2010, 2010)  # Small Sample of Documents
-    d.pretty_print_forms()
-    d.read_tsv_files()
+    build_index_sec(2010, 2012)  # Small Sample of Documents
 
 
 if __name__ == "__main__":
