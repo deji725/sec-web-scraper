@@ -103,6 +103,26 @@ def test_pretty_print_pass(mock_print):
     assert 'Form Type' in mock_print.call_args.args[0]
 
 
+def test_get_company_info_fail():
+    assert d.get_company_info('x-y-z') == []
+
+
+def test_get_company_info_pass():
+    assert len(d.get_company_info('Apple')) != 0
+
+
+def test_find_files_by_type_success():
+    resp = d.find_files_by_type('8-K')
+    assert resp.shape[0] > 0 and resp.shape[1] > 0
+
+
+def test_find_files_by_type_fail():
+    with pytest.raises(Exception) as context:
+        d.find_files_by_type('XYZ-123')
+    assert "does not exist" in str(context.value)
+
+
+# Last test
 def test_cleanup_dir():
     shutil.rmtree(indx_sec_path)
     with pytest.raises(FileNotFoundError) as context:
