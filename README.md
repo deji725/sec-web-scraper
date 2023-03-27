@@ -5,6 +5,7 @@ A Python based web scraper for the SEC EDGAR database
 ![Issues](https://img.shields.io/github/issues/deji725/sec-web-scraper)
 [![codecov](https://codecov.io/gh/deji725/sec-web-scraper/branch/main/graph/badge.svg?token=Y3RGEAR6Q2)](https://codecov.io/gh/deji725/sec-web-scraper)
 ![Github](https://github.com/deji725/sec-web-scraper/actions/workflows/makefile.yml/badge.svg)
+[![PyPI](https://img.shields.io/pypi/v/sec-web-scraper)](https://pypi.org/project/sec-web-scraper/)
 
 ## Overview
 
