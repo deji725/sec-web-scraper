@@ -11,6 +11,9 @@ from tqdm import trange
 
 
 class Downloader(object):
+    """This is a document downloader portion that will fetch documents from the EDGAR database based on parameters such as a 
+    text query, time period, company ticker, and file type."""
+
     def __init__(self):
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox",
@@ -23,6 +26,7 @@ class Downloader(object):
     def build_index_sec(self, st, ed, path_files='./index_sec/'):
         # using this file from an open source project
         # https://github.com/pundrich/mate/pull/2/commits/b7e38c0f2684a4d8d598f16bb0724f7eb4d3f69c (using this PR)
+      
 
         if os.path.exists(path_files) is False:
             os.makedirs(path_files)
