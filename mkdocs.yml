@@ -1,4 +1,8 @@
 site_name: SEC Web Scraper
+site_url: https://deji725.github.io/sec-web-scraper
+repo_url: https://github.com/deji725/sec-web-scraper
+repo_name: deji725/sec-web-scraper
+site_description: A web scraper for SEC EDGAR filings
 theme:
   name: material
   features:
@@ -25,9 +29,58 @@ theme:
         name: Switch to light mode    
       primary: blue
       accent: lime
+watch:
+  - sec_web_scraper
+  - README.md
+  - LICENSE
+  - CONTRIBUTING.md
+
+nav:
+- Home:
+  - Overview: index.md
+  - License: license.md
+    #- User Guide:
+    #- Usage Examples: examples/
+- API Reference: reference/
+- Development:
+  - Contributing: contributing.md
+
 extra:
   social:
     - icon: fontawesome/brands/github-alt
       link: https://github.com/deji725
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/deji/
+
+markdown_extensions:
+  - markdown_include.include
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+    
+
+plugins:
+  - search
+  - literate-nav:
+      nav_file: SUMMARY.txt
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - section-index
+  - mkdocstrings:
+      handlers:
+        python:
+            import:
+              - https://pandas.pydata.org/pandas-docs/stable/objects.inv
+              - https://docs.python.org/3/objects.inv
+        options:
+            docstring_style: google
+            docstring_options:
+              ignore_init_summary: true
+            merge_init_into_class: true
+            seperate_signature: true
+            show_submodules: true

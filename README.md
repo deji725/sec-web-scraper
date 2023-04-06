@@ -5,6 +5,7 @@ A Python based web scraper for the SEC EDGAR database
 ![Issues](https://img.shields.io/github/issues/deji725/sec-web-scraper)
 [![codecov](https://codecov.io/gh/deji725/sec-web-scraper/branch/main/graph/badge.svg?token=Y3RGEAR6Q2)](https://codecov.io/gh/deji725/sec-web-scraper)
 ![Github](https://github.com/deji725/sec-web-scraper/actions/workflows/makefile.yml/badge.svg)
+[![docs](https://img.shields.io/github/actions/workflow/status/deji725/sec-web-scraper/docs.yml?label=docs)](https://deji725.github.io/sec-web-scraper/)
 [![PyPI](https://img.shields.io/pypi/v/sec-web-scraper)](https://pypi.org/project/sec-web-scraper/)
 
 ## Overview
@@ -48,6 +49,7 @@ res = d.find_files_by_type('8-K')
 
 ```py
 #Scraper
+from sec_web_scraper.Scraper import *
 
 #With a particular filing
 sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"

@@ -54,6 +54,14 @@ develop = [
     "twine",
     "wheel",
 ]
+docs = [
+    "mkdocs-material>=9.1.5",
+    "mkdocstrings[python]",
+    "markdown-include>=0.8.1",
+    "mkdocs-gen-files>=0.4.0",
+    "mkdocs-literate-nav>=0.6.0",
+    "mkdocs-section-index>=0.3.5",
+]
 
 [tool.black]
 color = true
