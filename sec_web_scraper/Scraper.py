@@ -79,7 +79,8 @@ def get_company_filings_given_cik(cik: str) -> dict:
      based on the provided CIK.It will then get the JSON document containing this information.
 
     Args:
-        cik: A 10 digit unique string representing each public company.Can be retrieved using Downloader get_company_info.
+        cik: A 10 digit unique string representing each public company.Can be retrieved using Downloader
+            get_company_info.
 
     Returns:
         A dict representing all the submission history for a partiular company (cik).
