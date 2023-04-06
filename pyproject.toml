@@ -55,9 +55,9 @@ develop = [
     "wheel",
 ]
 docs = [
-    "mkdocs-material",
-    "mkdocstrings",
-    "markdown-include",
+    "mkdocs-material>=9.1.5",
+    "mkdocstrings>=0.20.0",
+    "markdown-include>=0.8.1",
 ]
 
 [tool.black]

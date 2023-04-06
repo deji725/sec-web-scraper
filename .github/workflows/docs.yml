@@ -19,8 +19,8 @@ jobs:
           key: ${{ github.ref }}
           path: .cache
       - name: Install docs
-      - run: |
+        run: |
           make install-docs
       - name: Deploy docs
-      - run: |
+        run: |
           make deploy-docs
