@@ -110,7 +110,7 @@ def get_document_given_link(link: str) -> str:
 
     Args:
         link: A url string for .txt file found on a documents's index page.
-            For example, https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt that can be retrieved 
+            For example, https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt that can be retrieved
             from the index page: https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500-index.html
     Returns:
         None if document doesn't exist or a text str contaning the text
