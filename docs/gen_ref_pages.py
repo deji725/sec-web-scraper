@@ -12,7 +12,7 @@ for path in sorted(Path("sec_web_scraper").rglob("*.py")):
     full_doc_path = Path("reference", doc_path)
 
     parts = tuple(module_path.parts)
-    #print(parts)
+    print(parts)
     
     if parts[1] in ["tests"]:
         continue

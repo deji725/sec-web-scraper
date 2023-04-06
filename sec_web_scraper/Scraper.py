@@ -1,3 +1,5 @@
+"""Scraping functions."""
+
 import re
 
 # import time
@@ -46,7 +48,21 @@ headers = {
 sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
 
 
-def create_selenium_browser_headless(sec_link='https://www.sec.gov/edgar/search/'):
+def create_selenium_browser_headless(sec_link: str = 'https://www.sec.gov/edgar/search/') -> None:
+    """Creates a Selenium Headless Web Browser for Full Text Search.
+
+    The goal of this method is to perform full text search queries by using SEC EDGAR's full text page.
+    There used to be a public API for this but it has been removed.
+
+    Args:
+        sec_link: The initial link for the Selenium Web Browser
+
+    Returns:
+        None
+
+    Raises:
+        ConnectionError: requests couldn\'t get your link so Selenium browser not created
+    """
     r = requests.get(sec_link, headers)
     if r.ok:
         print("Good")
@@ -56,7 +72,25 @@ def create_selenium_browser_headless(sec_link='https://www.sec.gov/edgar/search/
     # pass  # This will be for full text scraping
 
 
-def get_company_filings_given_cik(cik):
+def get_company_filings_given_cik(cik: str) -> dict:
+    """Find a company submission history given CIK.
+
+     This method will look at the SEC EDGARs official submission history for a company
+     based on the provided CIK.It will then get the JSON document containing this information.
+
+    Args:
+        cik: A 10 digit unique string representing each public company.Can be retrieved using Downloader get_company_info.
+
+    Returns:
+        A dict representing all the submission history for a partiular company (cik).
+        The dict contains keys such as entityType,tickers,exchanges,stateofIncoporation,addresses, etc
+
+        Empty dict is returned in the case that the CIK is invalid.
+    Raises:
+        AssertionError: Length of CIKs must be 10.
+
+        Please see this link for more information: https://data.sec.gov/submissions/CIK0000320193.json
+    """
     assert len(cik) == 10
     link = f"https://data.sec.gov/submissions/CIK{cik}.json"
     r = requests.get(link, headers=headers)
@@ -69,7 +103,19 @@ def get_company_filings_given_cik(cik):
         return {}
 
 
-def get_document_given_link(link):
+def get_document_given_link(link: str) -> str:
+    """Retrieve a document given it's URL
+
+    Get the raw text of a document provided its URL
+
+    Args:
+        link: A url string for .txt file found on a documents's index page.
+            For example, https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt that can be retrieved 
+            from the index page: https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500-index.html
+    Returns:
+        None if document doesn't exist or a text str contaning the text
+    """
+
     print(link)
     print(headers)
     r = requests.get(link, headers=headers)
@@ -80,7 +126,19 @@ def get_document_given_link(link):
         return None
 
 
-def get_document_tags(txt):
+def get_document_tags(txt: str) -> list[tuple]:
+    """Find all document tags inside of a document.
+
+    The document tags in a document are very helfpul for identifying change of sections
+    in a document.
+    Args:
+        txt: An HTML txt file (the output of get_document_given_link)
+
+    Returns:
+        A list of tuples of the form : (start_tag_index,end_tag_index,tag_name).
+        One example: (1385 , 176135 , <TYPE>10-K) means the 10-K section start at index 1385 and
+        ended at 176135.
+    """
     try:
         doc_start = re.compile(r"<DOCUMENT>")
         doc_end = re.compile(r"</DOCUMENT>")
@@ -111,13 +169,39 @@ def get_document_tags(txt):
         return None
 
 
-def bs4_scraping_text(string_inp):
+def bs4_scraping_text(string_inp: str) -> BeautifulSoup:
+    """A BeautifulSoup wrapper function for processing the text document we retrieved
+    to utilize the lxml parser.
+
+    Work in Progress.
+
+    Args:
+        string_inp: An HTML txt file (the output of get_document_given_link)
+
+    Returns:
+        A BeautifulSoup object
+    """
+
     text = BeautifulSoup(string_inp, "lxml")
     return text
     # Wait until you process this. We want to get the text between two tags
 
 
-def iterate_over_filings(filings):
+def iterate_over_filings(filings: dict) -> int:
+    """Extract number of filings for a company.
+
+    This function will iterate over the filings dictionary and try to extract
+    relevant information for the user. As of now, it only returns the total count
+    of filings.
+
+    Args:
+        filings: A dictionary retrieved from get_company_filings_given_cik.
+            get_company_filings_given_cik will return a nested dictionary.
+            One can pass in the "filings" key of the dictionary returned by get_company_filings_given_cik.
+
+    Returns:
+        A count of all the filings recorded for this company
+    """
     print(filings.keys())
     for k, v in filings["recent"].items():
         print(f"This is the key {k} and the item length: {len(v)} and type : {type(v)}")
@@ -128,7 +212,15 @@ def iterate_over_filings(filings):
     return filings["files"][0]["filingCount"]
 
 
-class Scraper(object):
+class ScraperObject(object):
+    """Work In Progress. Do Not Use
+
+    A scraper that will parse sections and information from the retrieved files.
+
+    Attributes:
+        headers: Request headers to avoid bot detection for scraping
+    """
+
     def __init__(self):
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox",

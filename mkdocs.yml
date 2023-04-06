@@ -29,7 +29,11 @@ theme:
         name: Switch to light mode    
       primary: blue
       accent: lime
-
+watch:
+  - sec_web_scraper
+  - README.md
+  - LICENSE
+  - CONTRIBUTING.md
 
 nav:
 - Home:
@@ -72,9 +76,11 @@ plugins:
         python:
             import:
               - https://pandas.pydata.org/pandas-docs/stable/objects.inv
+              - https://docs.python.org/3/objects.inv
         options:
             docstring_style: google
             docstring_options:
-              ignore_init_summary: yes
-            merge_init_into_class: yes
-            show_submodules: no
+              ignore_init_summary: true
+            merge_init_into_class: true
+            seperate_signature: true
+            show_submodules: true

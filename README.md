@@ -49,6 +49,7 @@ res = d.find_files_by_type('8-K')
 
 ```py
 #Scraper
+from sec_web_scraper.Scraper import *
 
 #With a particular filing
 sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
