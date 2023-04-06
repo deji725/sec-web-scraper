@@ -79,6 +79,17 @@ publish:  # Upload python3 assets
 	echo "would usually run python3 -m twine upload dist/* --skip-existing"
 
 #########
+# DOCS #
+#########
+install-docs:
+	python3 -m pip install -e .[docs]
+
+
+deploy-docs:
+	mkdocs gh-deploy --force
+
+
+#########
 # CLEAN #
 #########
 deep-clean: ## clean everything from the repository

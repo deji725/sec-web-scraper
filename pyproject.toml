@@ -54,6 +54,11 @@ develop = [
     "twine",
     "wheel",
 ]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings",
+    "markdown-include",
+]
 
 [tool.black]
 color = true
