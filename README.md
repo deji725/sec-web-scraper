@@ -18,7 +18,14 @@ The two main features of the library will be:
 
 ## Installation
 
-Run the command below! 
+
+Please make sure you have Python 3.7 or higher.
+
+You can check your python version with
+
+`python --version`
+
+Then run the command below! 
 
 `pip install sec-web-scraper`
 
