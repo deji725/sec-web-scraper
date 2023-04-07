@@ -8,8 +8,8 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
-    - toc.integrate
     - navigation.top
+    - toc.integrate
     - search.suggest
     - search.highlight
     - content.tabs.link
@@ -39,8 +39,8 @@ nav:
 - Home:
   - Overview: index.md
   - License: license.md
-    #- User Guide:
-    #- Usage Examples: examples/
+- User Guide:
+  - Usage Examples: examples/
 - API Reference: reference/
 - Development:
   - Contributing: contributing.md
@@ -61,6 +61,7 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.magiclink
     
 
 plugins:
