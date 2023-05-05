@@ -17,26 +17,27 @@ import json
 
 
 # import numpy as np
-# import pandas as pd
+import pandas as pd
 import requests
 
 # import io
 from bs4 import BeautifulSoup
 
-# geckodriver for Firefox
-# from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.firefox.options import Options
-# from selenium.webdriver.firefox.service import Service
-# from selenium.webdriver.support import expected_conditions
-# from selenium.webdriver.support.ui import Select, WebDriverWait
-# from webdriver_manager.firefox import GeckoDriverManager
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
-# from webdriver_manager.chrome import ChromeDriverManager
+#chrome_options = Options()
+#chrome_options.add_argument("--headless=new")
+#service = Service(ChromeDriverManager().install())
 
-
-# options = Options()
+#driver = webdriver.Chrome(service=service,options=chrome_options)
 
 # from pandas.core.frame import DataFrame
 # from tqdm import trange
@@ -48,7 +49,7 @@ headers = {
 sample_10k = "https://www.sec.gov/Archives/edgar/data/20/0000893220-96-000500.txt"
 
 
-def create_selenium_browser_headless(sec_link: str = 'https://www.sec.gov/edgar/search/') -> None:
+def create_selenium_browser_headless(sec_link: str = 'https://www.sec.gov/edgar/search/') -> webdriver.chrome.webdriver.WebDriver:
     """Creates a Selenium Headless Web Browser for Full Text Search.
 
     The goal of this method is to perform full text search queries by using SEC EDGAR's full text page.
@@ -66,10 +67,71 @@ def create_selenium_browser_headless(sec_link: str = 'https://www.sec.gov/edgar/
     r = requests.get(sec_link, headers)
     if r.ok:
         print("Good")
-        # driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
+        chrome_options = Options()
+        chrome_options.add_argument("--headless=new")
+        service = Service(ChromeDriverManager().install())
+
+        driver = webdriver.Chrome(service=service,options=chrome_options)
+        #driver = webdriver.Chrome(service=service)
+        return driver
     else:
         raise ConnectionError('requests couldn\'t get your link so Selenium browser not created')
     # pass  # This will be for full text scraping
+
+def get_filings_by_query(query: str,driver) -> pd.DataFrame:
+    """Find the first 100 submissions that contain the specific query
+     This method will look at the SEC EDGARs official database and perform a full-text-search on the provided query.
+     #WARNING: sometimes it may return an empty DataFrame
+
+    Args:
+        query:A string query/keyword that you are looking for.
+        driver: A selenium web driver created by create_selenium_browser_headless.
+
+    Returns:
+        A pandas DataFrame containing the columns:
+           ['File Type','CIK','Filename','Date Filed', 'Company Name','File Link']
+        See [pandas.DataFrame][] to learn more about Pandas DataFrames
+    
+    Raises:
+        An Exception if DataFrame can't be generated after 10 iterations of selenium get.
+
+    """
+    #service = Service(ChromeDriverManager().install())
+    #chrome_options = Options()
+    #chrome_options.add_argument("--headless=new")
+    #driver = webdriver.Chrome(service=service,options=chrome_options)
+    list_return = []
+    found = False
+    i = 0 
+    while found is False and i != 3:
+        driver.get(f'https://www.sec.gov/edgar/search/#/q={query}')
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        #search = soup.find_all('tr')
+        search = soup.find(id='hits')
+        new_search = search.find_all('tr')[1:]
+        link_ = 'https://www.sec.gov/Archives/edgar/data/'
+        column_names = ['File Type','CIK','Filename','Date Filed', 'Company Name','File Link']
+        for ele in new_search:
+            ele_attr = ele.find_all("td")
+            #File name : 
+            file_type = ele_attr[0].text
+            submission_num = ele_attr[0].a['data-adsh'].replace('-','')
+            file_name = ele_attr[0].a['data-file-name']
+            cik = ele_attr[4].text.split()[1]
+            file_link = f'{link_}/{cik}/{submission_num}/{file_name}'
+            company_name = ele_attr[3].text
+            date_filed = ele_attr[1].text
+            list_return.append([file_type,cik,file_name,date_filed,company_name,file_link])
+            #keep only file_name, file_type, cik, file_link,name
+        #driver.implicitly_wait(5)
+        found = len(list_return) != 0
+        i+=1
+
+    
+    if i == 3:
+        raise Exception("Tried 3 times, could not generate DataFrame")
+    return pd.DataFrame(list_return,columns=column_names)
+
 
 
 def get_company_filings_given_cik(cik: str) -> dict:
