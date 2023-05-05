@@ -1,4 +1,9 @@
 from unittest.mock import patch, MagicMock
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+
 import pandas as pd
 import pytest
 import requests
@@ -82,3 +87,16 @@ def test_create_selenium_browser_headless_con_err():
     with pytest.raises(ConnectionError) as conn_er:
         create_selenium_browser_headless("https://www.sec.gov/edgar/2/2")
         print(f'{conn_er}')
+
+
+def test_get_filings_by_query():
+    service = Service(ChromeDriverManager().install())
+    chrome_options = Options()
+    chrome_options.add_argument("--headless=new")
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    test_data = get_filings_by_query('cookies', driver)
+    assert test_data is not None
+
+
+# @patch('Scraper.get_filings_by_query')
+# def test_get_filings_by_query_failure():

@@ -19,6 +19,8 @@ dependencies = [
     "bs4",
     "requests",
     "tqdm",
+    "selenium",
+    "webdriver-manager",
 ]
 
 classifiers = [
