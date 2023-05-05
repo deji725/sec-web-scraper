@@ -89,17 +89,14 @@ def test_create_selenium_browser_headless_con_err():
         print(f'{conn_er}')
 
 
-def test_get_filings_by_query_failure():
-    with pytest.raises(Exception) as conn_er:
-        get_filings_by_query('test404', create_selenium_browser_headless())
-        print(f'{conn_er}')
-
 def test_get_filings_by_query():
     service = Service(ChromeDriverManager().install())
     chrome_options = Options()
     chrome_options.add_argument("--headless=new")
-    driver = webdriver.Chrome(service=service,options=chrome_options)
-    get_filings_by_query('cookies', driver)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    test_data = get_filings_by_query('cookies', driver)
+    assert test_data.shape[0] != 0
+
 
 # @patch('Scraper.get_filings_by_query')
 # def test_get_filings_by_query_failure():

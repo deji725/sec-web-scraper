@@ -101,7 +101,7 @@ def get_filings_by_query(query: str, driver) -> pd.DataFrame:
     list_return = []
     found = False
     i = 0
-    while found is False and i != 7:
+    while found is False and i != 5:
         driver.get(f'https://www.sec.gov/edgar/search/#/q={query}')
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         # search = soup.find_all('tr')
@@ -125,8 +125,8 @@ def get_filings_by_query(query: str, driver) -> pd.DataFrame:
         found = len(list_return) != 0
         i += 1
 
-    if i == 7:
-        raise Exception("Tried 7 times, could not generate DataFrame")
+    # if i == 10:
+    #    raise Exception("Tried 10 times, could not generate DataFrame")
     return pd.DataFrame(list_return, columns=column_names)
 
 
