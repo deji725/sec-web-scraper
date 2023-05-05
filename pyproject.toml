@@ -20,6 +20,7 @@ dependencies = [
     "requests",
     "tqdm",
     "selenium",
+    "webdriver_manager",
 ]
 
 classifiers = [
