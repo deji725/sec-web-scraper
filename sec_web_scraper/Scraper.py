@@ -101,7 +101,7 @@ def get_filings_by_query(query: str, driver) -> pd.DataFrame:
     list_return = []
     found = False
     i = 0
-    while found is False and i != 5:
+    while found is False and i != 15:
         driver.get(f'https://www.sec.gov/edgar/search/#/q={query}')
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         # search = soup.find_all('tr')
@@ -121,7 +121,7 @@ def get_filings_by_query(query: str, driver) -> pd.DataFrame:
             date_filed = ele_attr[1].text
             list_return.append([file_type, cik, file_name, date_filed, company_name, file_link])
             # keep only file_name, file_type, cik, file_link,name
-        # driver.implicitly_wait(5)
+        driver.implicitly_wait(5)
         found = len(list_return) != 0
         i += 1
 
