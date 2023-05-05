@@ -56,7 +56,7 @@ class Downloader(object):
 
         sec_url = "https://www.sec.gov/Archives/edgar/full-index/"
         column_names = ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename']
-        dat_types = {"CIK": int, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
+        dat_types = {"CIK": str, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
 
         t_r = trange(st, ed + 1, desc='Downloading SEC files', leave=True)
         for year in t_r:
@@ -88,6 +88,7 @@ class Downloader(object):
                             encoding='latin-1',
                         )
                     master_index['url'] = master_index['Filename'].str.replace(".txt", '-index.html', regex=False)
+                    master_index['CIK'] = master_index['CIK'].str.pad(10, side ='left',fillchar = '0')
                     save_file_path = os.path.join(path_files, f"{year}-QTR{quarter}.tsv")
                     master_index.to_csv(save_file_path, sep='|', index=False, header=False)
                     for i in master_index['Form Type']:
@@ -187,5 +188,39 @@ class Downloader(object):
         for i in os.listdir(path_files):
             master_index = pd.read_csv(path_files + i, names=column_names, dtype=dat_types, sep='|')
             master_index = master_index[master_index['Form Type'] == form_type]
+            master_list.append(master_index)
+        return pd.concat(master_list)
+
+    def find_files_by_company(self, company_cik: str) -> pd.DataFrame:
+        """Filters our index based on company_cik in the given time period 
+
+        This method will filter our index based on the company_cik provided to the function. Our index is
+        a very large file and typically users will want to focus on a certain company. Nicely formats the data 
+        for users in a DataFrame for easy extraction.
+
+        Args:
+            company_cik: A company's CIK. This can be found using get_company_info.
+
+        Returns:
+            A pandas DataFrame containing the columns:
+                ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename', 'url']
+            Each entry in this DataFrame will contain 'Company CIK' = company_cik.
+            See [pandas.DataFrame][] to learn more about Pandas DataFrames
+
+        Raises:
+            Exception: Company CIK  does not exist
+
+        """
+
+        path_files = './index_sec/'
+        column_names = ['CIK', 'Company Name', 'Form Type', 'Date Filed', 'Filename', 'url']
+        dat_types = {"CIK": int, 'Company Name': str, 'Form Type': str, 'Date Filed': str, 'Filename': str}
+        if len(company_cik) != 10:
+            raise Exception("Company {company_cik} CIK is not 10 characters")
+
+        master_list = []
+        for i in os.listdir(path_files):
+            master_index = pd.read_csv(path_files + i, names=column_names, dtype=dat_types, sep='|')
+            master_index = master_index[master_index['CIK'] == company_cik]
             master_list.append(master_index)
         return pd.concat(master_list)

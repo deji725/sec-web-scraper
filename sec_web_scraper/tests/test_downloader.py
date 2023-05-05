@@ -121,6 +121,17 @@ def test_find_files_by_type_fail():
         d.find_files_by_type('XYZ-123')
     assert "does not exist" in str(context.value)
 
+def test_find_files_by_company_empty():
+    resp = d.find_files_by_company('0000104169')
+    #We had a valid CIK but company did not exist in this range
+    assert resp.shape[0] == 0
+
+def test_find_files_by_company_fail_assert_fail():
+    with pytest.raises(Exception) as context:
+        #the provided CIK is not of length 10
+        d.find_files_by_company('001104169')
+    assert "10" in str(context.value)
+
 
 # Last test
 def test_cleanup_dir():
