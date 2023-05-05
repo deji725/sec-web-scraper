@@ -83,10 +83,12 @@ def test_create_selenium_browser_headless_con_err():
         create_selenium_browser_headless("https://www.sec.gov/edgar/2/2")
         print(f'{conn_er}')
 
+
 def test_get_filings_by_query_failure():
     with pytest.raises(Exception) as conn_er:
-        get_filings_by_query('test404',create_selenium_browser_headless())
+        get_filings_by_query('test404', create_selenium_browser_headless())
         print(f'{conn_er}')
 
-#@patch('Scraper.get_filings_by_query')
-#def test_get_filings_by_query_failure():
+
+# @patch('Scraper.get_filings_by_query')
+# def test_get_filings_by_query_failure():

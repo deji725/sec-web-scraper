@@ -88,7 +88,7 @@ class Downloader(object):
                             encoding='latin-1',
                         )
                     master_index['url'] = master_index['Filename'].str.replace(".txt", '-index.html', regex=False)
-                    master_index['CIK'] = master_index['CIK'].str.pad(10, side ='left',fillchar = '0')
+                    master_index['CIK'] = master_index['CIK'].str.pad(10, side='left', fillchar='0')
                     save_file_path = os.path.join(path_files, f"{year}-QTR{quarter}.tsv")
                     master_index.to_csv(save_file_path, sep='|', index=False, header=False)
                     for i in master_index['Form Type']:
@@ -192,10 +192,10 @@ class Downloader(object):
         return pd.concat(master_list)
 
     def find_files_by_company(self, company_cik: str) -> pd.DataFrame:
-        """Filters our index based on company_cik in the given time period 
+        """Filters our index based on company_cik in the given time period
 
         This method will filter our index based on the company_cik provided to the function. Our index is
-        a very large file and typically users will want to focus on a certain company. Nicely formats the data 
+        a very large file and typically users will want to focus on a certain company. Nicely formats the data
         for users in a DataFrame for easy extraction.
 
         Args:
