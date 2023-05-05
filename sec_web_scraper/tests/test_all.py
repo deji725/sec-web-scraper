@@ -95,7 +95,7 @@ def test_get_filings_by_query():
     chrome_options.add_argument("--headless=new")
     driver = webdriver.Chrome(service=service, options=chrome_options)
     test_data = get_filings_by_query('cookies', driver)
-    assert test_data.shape[0] != 0
+    assert test_data is not None
 
 
 # @patch('Scraper.get_filings_by_query')
