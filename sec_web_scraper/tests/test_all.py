@@ -1,4 +1,9 @@
 from unittest.mock import patch, MagicMock
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+
 import pandas as pd
 import pytest
 import requests
@@ -89,6 +94,12 @@ def test_get_filings_by_query_failure():
         get_filings_by_query('test404', create_selenium_browser_headless())
         print(f'{conn_er}')
 
+def test_get_filings_by_query():
+    service = Service(ChromeDriverManager().install())
+    chrome_options = Options()
+    chrome_options.add_argument("--headless=new")
+    driver = webdriver.Chrome(service=service,options=chrome_options)
+    get_filings_by_query('cookies', driver)
 
 # @patch('Scraper.get_filings_by_query')
 # def test_get_filings_by_query_failure():
